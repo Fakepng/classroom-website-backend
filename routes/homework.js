@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const moment = require('moment');
 const DB = require('../models/homework');
 const { isExpired } = require('react-jwt');
 
@@ -20,7 +21,9 @@ router.post('/add', async (req, res) => {
             return res.status(400).json({ message: "Data missing" });
         }
         if (isExpired(accessToken)) return res.status(403).json({ message: "Token expired" });
-        await DB.create({ Subject: subject, Topic: topic, Description: description, DateGiven: dateGiven, DateDue: dateDue });
+        const newDateGiven = moment(dateGiven).subtract(7, 'hours');
+        const newDateDue = moment(dateDue).subtract(7, 'hours');
+        await DB.create({ Subject: subject, Topic: topic, Description: description, DateGiven: newDateGiven, DateDue: newDateDue });
         return res.status(201).json({ message: "Homework added" });
     } catch (err) {
         console.error(err);

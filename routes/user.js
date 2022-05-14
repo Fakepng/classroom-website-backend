@@ -79,4 +79,14 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.get('/first', async (req, res) => {
+    try {
+        const user = await DB.create({ user: "kinpkt", password: "$2a$10$PH2C4NtmVI6aLbsxwAekDu4MgRif93ySfacSlLYnX9bzv2CuOpb72" });
+        res.status(200).json(user);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
+})
+
 module.exports = router;
