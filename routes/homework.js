@@ -31,6 +31,24 @@ router.post('/add', async (req, res) => {
     }
 });
 
+router.post('/edit', async (req, res) => {
+    try {
+        console.log(req.body)
+        const { accessToken, _id, Subject, Topic, Description, DateGiven, DateDue } = req.body;
+        if (!(accessToken && _id && Subject && Topic && DateGiven && DateDue)) {
+            return res.status(400).json({ message: "Data missing" });
+        }
+        if (isExpired(accessToken)) return res.status(403).json({ message: "Token expired" });
+        const homework = await DB.findById(_id);
+        if (!homework) return res.status(403).json({ message: "Homework not found" });
+        await DB.updateOne({ _id }, { Subject, Topic, Description, DateGiven, DateDue })
+        return res.status(200).json({ message: "Update successfully"})
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
+});
+
 router.post('/delete', async (req, res) => {
     try {
         const { accessToken, _id } = req.body;
