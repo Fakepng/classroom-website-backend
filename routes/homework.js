@@ -33,7 +33,6 @@ router.post('/add', async (req, res) => {
 
 router.post('/edit', async (req, res) => {
     try {
-        console.log(req.body)
         const { accessToken, _id, Subject, Topic, Description, DateGiven, DateDue } = req.body;
         if (!(accessToken && _id && Subject && Topic && DateGiven && DateDue)) {
             return res.status(400).json({ message: "Data missing" });
