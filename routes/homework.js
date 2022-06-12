@@ -4,7 +4,24 @@ const moment = require('moment');
 const DB = require('../models/homework');
 const { isExpired } = require('react-jwt');
 
+const checkPastDue = (homework) => {
+    const now = moment();
+    const dueDate = moment(homework.DateDue);
+    return dueDate.isAfter(now);
+};
+
 router.get('/get', async (req, res) => {
+    try {
+        const homework = await DB.find();
+        const filteredHomework = homework.filter(checkPastDue);
+        res.status(200).json(filteredHomework);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
+});
+
+router.get('/get-all', async (req, res) => {
     try {
         const homework = await DB.find();
         res.status(200).json(homework);
