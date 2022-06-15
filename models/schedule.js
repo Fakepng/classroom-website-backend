@@ -22,4 +22,6 @@ module.exports = model('schedule', new Schema({
     Class8: String,
     Time9: String,
     Class9: String,
+    Time10: String,
+    Class10: String
 }));
