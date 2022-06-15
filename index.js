@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
 });
 
 app.use('/user', require('./routes/user'));
+app.use('/schedule', require('./routes/schedule'));
 app.use('/homework', require('./routes/homework'));
 
 app.listen(PORT, () => {
