@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
+const version = require('./version');
 
 const PORT = process.env.PORT || 5050;
 const CLIENT = process.env.CLIENT || '*';
@@ -20,7 +21,11 @@ app.use(bodyParser.json());
 app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
-    res.json({ message: "welecome to fakepng api backend", contact: "contact@fakepng.com" })
+    res.json({ message: "welecome to fakepng api backend", contact: "contact@fakepng.com" });
+});
+
+app.get("/version", (req, res) => {
+    res.json({ version });
 });
 
 app.use('/user', require('./routes/user'));
